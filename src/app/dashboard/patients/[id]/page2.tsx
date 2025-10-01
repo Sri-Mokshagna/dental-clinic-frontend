@@ -26,7 +26,10 @@ function PatientDetailPage2() {
 
   const refreshAllData = useCallback(() => {
     const allPatients = JSON.parse(localStorage.getItem('patients') || '[]');
-    const currentPatient = allPatients.find((p: Patient) => p.id === patientId);
+    const currentPatient = allPatients.find(
+  (p: Patient) => String(p.id) === patientId
+);
+
     if(currentPatient && currentPatient.attachments){
         currentPatient.attachments.forEach((att: { url: string; uploadedAt: Date; name: string }) => att.uploadedAt = new Date(att.uploadedAt));
     }
