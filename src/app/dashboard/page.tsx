@@ -320,7 +320,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Admin Actions */}
-        {(user.role === 'ADMIN' || user.role === 'owner') && (
+        {(user.role === 'ADMIN' ) && (
           <div className="mb-8">
             <h2 className="text-2xl font-semibold text-dental-foreground mb-6 flex items-center">
               <ChartBarIcon className="w-6 h-6 text-primary-600 mr-2" />
@@ -331,7 +331,7 @@ export default function DashboardPage() {
         )}
 
         {/* Pending Expenses for Admin */}
-        {(user.role === 'ADMIN' || user.role === 'owner') && (
+        {(user.role === 'ADMIN' ) && (
           <div className="mb-8">
             <PendingExpenses />
           </div>
