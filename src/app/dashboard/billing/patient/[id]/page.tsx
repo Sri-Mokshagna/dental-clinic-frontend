@@ -197,7 +197,7 @@ function PatientBillingPage() {
                           {sendingWhatsApp === bill.id ? 'Sending...' : 'Send to WhatsApp'}
                         </button>
                       )}
-                      {user?.role === 'owner' && (
+                      {(
                         <>
                           <button onClick={() => setEditingBill(bill)} className="p-1 text-blue-600 hover:text-blue-800">
                             <PencilIcon className="h-4 w-4" />
