@@ -92,7 +92,7 @@ export default function MedicalNotesPage() {
     return <PageLoader />;
   }
 
-  if (!user || user.role !=="doctor") {
+  if (!user || user.role !=="DOCTOR") {
     return (
       <div className="min-h-screen bg-dental-background flex items-center justify-center">
         <div className="text-center">
