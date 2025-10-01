@@ -1,5 +1,5 @@
 const API_BASE_URL = 'https://dental-clinic-backend-0twz.onrender.com/';
-
+import { Bill, Patient } from "@/types";
 class ApiError extends Error {
   constructor(public status: number, message: string) {
     super(message);
@@ -87,7 +87,7 @@ export class ApiService {
 
   static async getPatient(id: string) {
     const response = await fetch(`${API_BASE_URL}/patients/${id}`);
-    return handleResponse(response);
+    return handleResponse<Patient>(response);
   }
 
   static async createPatient(patientData: any) {
@@ -276,7 +276,7 @@ export class ApiService {
 
   static async getBill(id: string) {
     const response = await fetch(`${API_BASE_URL}/billing/${id}`);
-    return handleResponse(response);
+    return handleResponse<Bill>(response);
   }
 
   static async createBill(data: any) {
