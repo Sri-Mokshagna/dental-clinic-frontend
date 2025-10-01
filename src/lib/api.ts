@@ -82,7 +82,7 @@ export class ApiService {
   // Patient endpoints
   static async getPatients() {
     const response = await fetch(`${API_BASE_URL}/patients`);
-    return handleResponse(response);
+    return handleResponse<Patient[]>(response);
   }
 
   static async getPatient(id: string) {
