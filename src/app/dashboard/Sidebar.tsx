@@ -23,7 +23,16 @@ import { useClinic } from '@/context/ClinicContext';
 import { useIsClient } from '@/hooks/useIsClient';
 import { useLogo } from '@/context/LogoContext';
 
-const navigation = [
+// ✅ Define a proper type for navigation items
+type NavItem = {
+  name: string;
+  href: string;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  roles?: string[];
+  color?: string; // optional now
+};
+
+const navigation: NavItem[] = [
   { name: 'Register Patient', href: '/register', icon: UsersIcon, roles: ['owner', 'doctor', 'staff'], color: 'text-accent-600' },
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, roles: ['owner', 'doctor'], color: 'text-primary-600' },
   { name: 'Staff Dashboard', href: '/dashboard/staff', icon: HomeIcon, roles: ['staff'], color: 'text-primary-600' },
@@ -36,8 +45,8 @@ const navigation = [
   { name: 'Settings', href: '/dashboard/settings', icon: Cog6ToothIcon, roles: ['owner'], color: 'text-gray-600' },
 ];
 
-// Special navigation for patient-register role
-const patientRegisterNavigation = [
+// ✅ patientRegisterNavigation now typed correctly
+const patientRegisterNavigation: NavItem[] = [
   { name: 'Patient Registration', href: '/register', icon: UsersIcon },
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
 ];
@@ -66,39 +75,28 @@ export default function Sidebar() {
       localStorage.removeItem('currentUser');
       localStorage.removeItem('user');
       sessionStorage.clear();
-      // Prevent back navigation to protected pages
       window.history.pushState(null, '', '/login');
       window.location.href = '/login';
     }
   };
 
-  const userNavigation = navigation.filter(item => item.roles.includes(user?.role || ''));
-  
-  // Special handling for patient-register role
-  let displayNavigation;
+  // ✅ filtering typed navigation
+  const userNavigation = navigation.filter(item => item.roles?.includes(user?.role || ''));
+
+  // Fallback navigation if user role not matched
+  let displayNavigation: NavItem[];
   if (userNavigation.length > 0 && user?.role) {
     displayNavigation = userNavigation;
   } else {
-    // Fallback navigation if role filtering fails or user is not loaded yet
     displayNavigation = [
-      { name: 'Staff Dashboard', href: '/dashboard/staff', icon: HomeIcon },
-      { name: 'Appointments', href: '/dashboard/appointments', icon: CalendarIcon },
-      { name: 'Billing', href: '/dashboard/billing', icon: CreditCardIcon },
-      { name: 'Expenses', href: '/dashboard/expenses', icon: BanknotesIcon },
+      { name: 'Staff Dashboard', href: '/dashboard/staff', icon: HomeIcon, color: 'text-dental-muted' },
+      { name: 'Appointments', href: '/dashboard/appointments', icon: CalendarIcon, color: 'text-dental-muted' },
+      { name: 'Billing', href: '/dashboard/billing', icon: CreditCardIcon, color: 'text-dental-muted' },
+      { name: 'Expenses', href: '/dashboard/expenses', icon: BanknotesIcon, color: 'text-dental-muted' },
     ];
   }
-  
-  // Debug logging to see what's happening
-  console.log('Sidebar render - Current user:', user);
-  console.log('Sidebar render - User role:', user?.role);
-  console.log('Sidebar render - Display navigation count:', displayNavigation.length);
-  
 
-
-  if (!isClient) {
-    // Render a placeholder or null on the server to avoid hydration mismatch
-    return null;
-  }
+  if (!isClient) return null;
 
   return (
     <>
@@ -112,20 +110,15 @@ export default function Sidebar() {
         </button>
       </div>
 
-      {/* Static sidebar for desktop */}
+      {/* Desktop Sidebar */}
       <div className={`hidden lg:flex lg:flex-shrink-0 sidebar-transition ${isAnimating ? 'animate-slide-in' : ''}`}>
         <div className="flex flex-col w-64">
-          {/* Header with gradient background */}
+          {/* Header */}
           <div className="flex items-center h-20 flex-shrink-0 px-6 gradient-primary text-white">
             <div className="flex items-center space-x-3">
               {logoUrl ? (
                 <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                  <img
-                    src={logoUrl}
-                    alt="Clinic Logo"
-                    className="w-8 h-8 object-contain"
-                    onError={() => {}}
-                  />
+                  <img src={logoUrl} alt="Clinic Logo" className="w-8 h-8 object-contain" />
                 </div>
               ) : (
                 <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
@@ -140,7 +133,7 @@ export default function Sidebar() {
               </div>
             </div>
           </div>
-          
+
           {/* Navigation */}
           <div className="flex-1 flex flex-col overflow-y-auto bg-dental-surface border-r border-dental-border">
             <nav className="px-4 py-6">
@@ -157,7 +150,13 @@ export default function Sidebar() {
                     )}
                     style={{ animationDelay: `${index * 0.1}s` }}
                   >
-                    <item.icon className={`mr-4 flex-shrink-0 h-5 w-5 ${pathname === item.href ? 'text-primary-600' : item.color || 'text-dental-muted group-hover:text-primary-600'}`} />
+                    <item.icon
+                      className={`mr-4 flex-shrink-0 h-5 w-5 ${
+                        pathname === item.href
+                          ? 'text-primary-600'
+                          : item.color ?? 'text-dental-muted group-hover:text-primary-600'
+                      }`}
+                    />
                     <span className="truncate">{item.name}</span>
                     {pathname === item.href && (
                       <div className="ml-auto w-2 h-2 bg-primary-500 rounded-full animate-pulse"></div>
@@ -166,8 +165,8 @@ export default function Sidebar() {
                 ))}
               </div>
             </nav>
-            
-            {/* User info and logout */}
+
+            {/* User Info + Logout */}
             <div className="mt-auto p-4 border-t border-dental-border">
               <div className="flex items-center space-x-3 mb-4 p-3 bg-dental-surface-dark rounded-xl">
                 <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
@@ -182,7 +181,6 @@ export default function Sidebar() {
                   </p>
                 </div>
               </div>
-              
               <button
                 onClick={handleLogout}
                 className="group flex items-center px-4 py-3 text-sm font-medium rounded-xl w-full text-dental-muted hover:bg-red-50 hover:text-red-600 transition-all duration-200 btn-animate"
@@ -194,76 +192,6 @@ export default function Sidebar() {
           </div>
         </div>
       </div>
-
-      {/* Mobile sidebar */}
-      {sidebarOpen && (
-        <div className="lg:hidden fixed inset-0 flex z-40">
-          <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={() => setSidebarOpen(false)}></div>
-          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-gray-800">
-            <div className="absolute top-0 right-0 -mr-12 pt-2">
-              <button
-                type="button"
-                className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-                onClick={() => setSidebarOpen(false)}
-              >
-                <span className="sr-only">Close sidebar</span>
-                <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
-              </button>
-            </div>
-            <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
-              <div className="flex-shrink-0 flex items-center px-4 text-white font-bold text-xl">
-                {logoUrl ? (
-                  <img
-                    src={logoUrl}
-                    alt="Clinic Logo"
-                    className="w-8 h-8 object-contain rounded"
-                    onError={() => {}}
-                  />
-                ) : (
-                  <div className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center">
-                    <SparklesIcon className="w-5 h-5 text-gray-400" />
-                  </div>
-                )}
-                <span className="ml-2">
-                  {loading ? 'Loading...' : clinicProfile?.name || 'Dental Clinic'}
-                </span>
-              </div>
-              <nav className="mt-5 px-2 space-y-2">
-                {displayNavigation.map((item, index) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    onClick={() => setSidebarOpen(false)}
-                    className={classNames(
-                      pathname === item.href
-                        ? 'bg-primary-50 text-primary-700 border-l-4 border-primary-500'
-                        : 'text-dental-muted hover:bg-dental-surface-dark hover:text-primary-600',
-                      'group flex items-center px-4 py-3 text-base font-medium rounded-xl transition-all duration-200'
-                    )}
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    <item.icon className={`mr-4 flex-shrink-0 h-5 w-5 ${pathname === item.href ? 'text-primary-600' : item.color || 'text-dental-muted group-hover:text-primary-600'}`} />
-                    <span className="truncate">{item.name}</span>
-                    {pathname === item.href && (
-                      <div className="ml-auto w-2 h-2 bg-primary-500 rounded-full animate-pulse"></div>
-                    )}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-            <div className="flex-shrink-0 p-4">
-                <button
-                    onClick={handleLogout}
-                    className="group flex items-center px-4 py-3 text-base font-medium rounded-xl w-full text-dental-muted hover:bg-red-50 hover:text-red-600 transition-all duration-200 btn-animate"
-                >
-                    <ArrowRightOnRectangleIcon className="mr-4 h-5 w-5 text-dental-muted group-hover:text-red-600" />
-                    Logout
-                </button>
-            </div>
-          </div>
-          <div className="flex-shrink-0 w-14"></div>
-        </div>
-      )}
     </>
   );
 }
