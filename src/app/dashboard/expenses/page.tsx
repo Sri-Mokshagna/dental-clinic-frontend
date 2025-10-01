@@ -106,7 +106,7 @@ export default function ExpensesPage() {
         return <div className="flex items-center justify-center p-8">Loading expenses...</div>;
     }
 
-    const isAdmin = user.role === 'ADMIN' || user.role === 'owner';
+    const isAdmin = user.role === 'ADMIN' ;
     const filteredExpenses = isAdmin ? expenses : expenses.filter(exp => exp.addedBy?.id === user.id);
 
     return (
