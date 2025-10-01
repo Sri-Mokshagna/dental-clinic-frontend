@@ -196,7 +196,7 @@ function PatientDetailPage() {
                         </div>
                     ))}
                 </div>
-                {isClinician && <TreatmentPlanForm patientId={patient.id} onSave={refreshAllData} />}
+                {isClinician && <TreatmentPlanForm patientId={`${patient.id}`}  onSave={refreshAllData} />}
               </div>
 
               {/* Right Side: Account Summary */}
