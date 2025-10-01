@@ -128,7 +128,7 @@ function InvoicePage() {
                 </div>
                 <div className="flex gap-2">
                     <button onClick={handleDownloadPdf} className="bg-blue-500 text-white py-2 px-4 rounded">Download PDF</button>
-                    {isOwner && (
+                    { (
                         <>
                             <button onClick={() => setIsEditing(true)} className="bg-yellow-500 text-white py-2 px-4 rounded">Edit</button>
                             <button onClick={handleDelete} className="bg-red-500 text-white py-2 px-4 rounded">Delete</button>
