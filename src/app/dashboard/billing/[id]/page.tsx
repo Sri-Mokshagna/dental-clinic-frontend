@@ -62,7 +62,6 @@ function InvoicePage() {
 
     if (!bill || !patient) return <div>Loading invoice...</div>;
 
-    const isOwner = currentUser?.role === 'owner';
 
     if (isEditing) {
         return <EditBillForm bill={bill} onSave={() => setIsEditing(false)} onCancel={() => setIsEditing(false)} />;
