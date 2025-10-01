@@ -326,10 +326,10 @@ export default function MedicalNotesPage() {
                   <p className="text-dental-foreground">{selectedNote.treatment || 'No treatment recorded'}</p>
                 </div>
                 
-                <div className="dental-card p-4">
+                {/* <div className="dental-card p-4">
                   <h3 className="text-lg font-semibold text-dental-foreground mb-3">Prescription</h3>
                   <p className="text-dental-foreground">{selectedNote.prescription || 'No prescription recorded'}</p>
-                </div>
+                </div> */}
               </div>
 
               {/* Removed Prescription Total section */}
