@@ -1,5 +1,5 @@
 'use client';
-import { UserRole } from "@/types";
+import { UserRole } from "@/types/index";
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useData } from '@/context/DataContext';
