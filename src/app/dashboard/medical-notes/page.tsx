@@ -1,5 +1,4 @@
 'use client';
-import { UserRole } from "@/types/index";
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useData } from '@/context/DataContext';
@@ -93,7 +92,7 @@ export default function MedicalNotesPage() {
     return <PageLoader />;
   }
 
-  if (!user || user.role !== UserRole.Doctor) {
+  if (!user || user.role !=="doctor") {
     return (
       <div className="min-h-screen bg-dental-background flex items-center justify-center">
         <div className="text-center">
