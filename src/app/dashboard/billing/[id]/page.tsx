@@ -38,7 +38,7 @@ function InvoicePage() {
     const handleMarkAsPaid = () => {}
     
     const handleDelete = () => {
-        if (!bill || !currentUser || currentUser.role !== 'owner') {
+        if (!bill || !currentUser) {
             alert('You do not have permission to delete this bill.');
             return;
         }
