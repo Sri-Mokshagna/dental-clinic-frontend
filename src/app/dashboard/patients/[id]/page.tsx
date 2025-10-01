@@ -118,7 +118,7 @@ function PatientDetailPage() {
   
   const hasNotes = (_appointment: Appointment) => false;
 
-  const isClinician = currentUser?.role === 'owner' || currentUser?.role === 'doctor';
+  const isClinician = currentUser?.role === 'admin' || currentUser?.role === 'doctor';
 
   const financialSummary = useMemo(() => {
     const totalPaid = bills.reduce((acc, bill) => acc + (bill.amount || 0), 0);
