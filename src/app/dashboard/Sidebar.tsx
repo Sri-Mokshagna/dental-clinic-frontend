@@ -76,9 +76,7 @@ export default function Sidebar() {
   
   // Special handling for patient-register role
   let displayNavigation;
-  if (user?.role === 'patient-register') {
-    displayNavigation = patientRegisterNavigation;
-  } else if (userNavigation.length > 0 && user?.role) {
+  if (userNavigation.length > 0 && user?.role) {
     displayNavigation = userNavigation;
   } else {
     // Fallback navigation if role filtering fails or user is not loaded yet
