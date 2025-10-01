@@ -111,7 +111,7 @@ function PatientDetailPage() {
   }, [refreshAllData]);
   
   const handleSaveNotes = () => {
-    setEditingAppointmentId(null);
+    //setEditingAppointmentId(null);
     refreshAllData();
   };
 
