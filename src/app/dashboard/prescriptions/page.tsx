@@ -100,7 +100,7 @@ export default function PrescriptionsPage() {
     return <PageLoader />;
   }
 
-  if (!user || (user.role !== 'owner' && user.role !== 'doctor')) {
+  if (!user || (user.role !== "owner" && user.role !== "doctor")) {
     return (
       <div className="min-h-screen bg-dental-background flex items-center justify-center">
         <div className="text-center">
