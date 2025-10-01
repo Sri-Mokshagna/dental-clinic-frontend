@@ -78,7 +78,7 @@ function PatientDetailPage() {
                 yPos += imgHeight + 10;
             }
 
-            pdf.save(`${patient.name}_summary.pdf`);
+            pdf.save(`${patient.fullName}_summary.pdf`);
             setIsGeneratingPdf(false);
         }
       };
