@@ -100,16 +100,16 @@ export default function PrescriptionsPage() {
     return <PageLoader />;
   }
 
-  if (!user || (user.role !== "OWNER" && user.role !== "DOCTOR")) {
-    return (
-      <div className="min-h-screen bg-dental-background flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-dental-foreground mb-4">Access Denied</h1>
-          <p className="text-dental-muted">You don't have permission to view this page.</p>
-        </div>
-      </div>
-    );
-  }
+  // if (!user || (user.role !== "OWNER" && user.role !== "DOCTOR")) {
+  //   return (
+  //     <div className="min-h-screen bg-dental-background flex items-center justify-center">
+  //       <div className="text-center">
+  //         <h1 className="text-2xl font-bold text-dental-foreground mb-4">Access Denied</h1>
+  //         <p className="text-dental-muted">You don't have permission to view this page.</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="min-h-screen bg-dental-background">
